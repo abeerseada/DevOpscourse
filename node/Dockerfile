@@ -1,11 +1,9 @@
 FROM node:latest 
 WORKDIR /app
 COPY . /app/
-
-# Copy package.json and package-lock.json (if available)
-COPY package*.json ./
-
-# Install app dependencies
-RUN npm install
+RUN npm init -y
+RUN npm install express 
 EXPOSE 8080
 CMD ["node","app.js"]
+
+#RUN npm install??

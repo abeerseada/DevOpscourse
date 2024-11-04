@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  mongo:
+    image: mongo:latest
+    container_name: mongo-container
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+  node:
+    image: node-img
+    build: .
+    container_name: nodejs-container
+    depends_on:
+      - mongo
+    environment:
+      - mongo_url=mongodb://mongo:27017/testdb
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/usr/src/app
+
+volumes:
+  mongo-data:

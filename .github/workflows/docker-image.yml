@@ -27,48 +27,38 @@ jobs:
           
     - name: push the Docker image
       run: docker push abeerseada/nodejs
-
-  build-and-push-pyapp:
-
+      
+  build-and-push node-mongo-app:
     runs-on: ubuntu-latest
 
     steps:
-    - name: checkout repo
+    - name: Checkout repository
       uses: actions/checkout@v4
-      
-    - name: Build the Docker image
-      run: docker build -t abeerseada/pyapp pyapp/ 
-      
-    - name: Login to Docker Hub
-      uses: docker/login-action@v3
-      with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-          
-    - name: push the Docker image
-      run: docker push abeerseada/pyapp
-  build-and-push-Node-Mongo-App:
 
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-      working-directory: nodejs-mongo
-    steps:
-    - name: checkout repo
-      uses: actions/checkout@v4
-    - name: Set up Docker Compose
-      run: sudo apt-get update && sudo apt-get install -y docker-compose
-      
-    - name: Run Docker Compose
-      run: docker-compose up --build
-      
-    - name: Login to Docker Hub
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+
+    - name: Log in to Docker Hub
       uses: docker/login-action@v3
       with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-          
-    - name: push the Docker image
-      run: docker push abeerseada/node_mongo_app
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    - name: Build and Push MongoDB Image
+      run: |
+        docker pull mongo:latest
+        docker tag mongo:latest abeerseada/mongo:latest
+        docker push abeerseada/mongo:latest
+
+    - name: Build and Push Node.js App Image
+      run: |
+        docker build -t abeerseada/node_mongo_app .
+        docker push abeerseada/node_mongo_app
+
+    - name: Run Docker Compose for Testing
+      run: |
+        docker-compose -f docker-compose.yml up -d
+        curl -f http://localhost:8080 || exit 1
+
     - name: Shutdown Docker Compose
       run: docker-compose down

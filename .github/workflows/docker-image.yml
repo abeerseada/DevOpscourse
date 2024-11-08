@@ -54,6 +54,8 @@ jobs:
     steps:
     - name: checkout repo
       uses: actions/checkout@v4
+    - name: Set up Docker Compose
+      run: sudo apt-get update && sudo apt-get install -y docker-compose
       
     - name: Run Docker Compose
       run: docker-compose up --build
@@ -66,3 +68,5 @@ jobs:
           
     - name: push the Docker image
       run: docker push abeerseada/node_mongo_app
+    - name: Shutdown Docker Compose
+      run: docker-compose down

@@ -50,7 +50,9 @@ jobs:
   build-and-push-Node-Mongo-App:
 
     runs-on: ubuntu-latest
-
+    defaults:
+      run:
+      working-directory: /Users/abeerabdelhameed/DevOpscourse/nodejs-mongo/docker-compose.yml
     steps:
     - name: checkout repo
       uses: actions/checkout@v4

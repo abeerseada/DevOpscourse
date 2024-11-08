@@ -86,7 +86,7 @@ jobs:
 
     - name: Run Docker Compose for Testing
       run: |
-        docker-compose -f docker-compose.yml up -d
+        docker-compose -f nodejs-mongo/docker-compose.yml up -d
         sleep 10 
         curl -f http://localhost:8080 || exit 1
 

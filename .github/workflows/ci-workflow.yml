@@ -1,0 +1,68 @@
+name: ci workflow
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build-and-push-nodejs:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: checkout repo
+      uses: actions/checkout@v4
+      
+    - name: Build the Docker image
+      run: docker build -t abeerseada/nodejs node/ 
+      
+    - name: Login to Docker Hub
+      uses: docker/login-action@v3
+      with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          
+    - name: push the Docker image
+      run: docker push abeerseada/nodejs
+
+  build-and-push-pyapp:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: checkout repo
+      uses: actions/checkout@v4
+      
+    - name: Build the Docker image
+      run: docker build -t abeerseada/pyapp pyapp/ 
+      
+    - name: Login to Docker Hub
+      uses: docker/login-action@v3
+      with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          
+    - name: push the Docker image
+      run: docker push abeerseada/pyapp
+
+  build-and-push-nodejs-mongo-app:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    - name: Build and Push Node.js App Image
+      run: |
+        docker build -t abeerseada/node_mongo_app nodejs-mongo/
+        docker push abeerseada/node_mongo_app
+  

@@ -91,7 +91,7 @@ jobs:
         curl -f http://localhost:8080 || exit 1
 
     - name: Shutdown Docker Compose
-      run: docker-compose down
+      run: nodejs-mongo/docker-compose down
   
     
   

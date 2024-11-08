@@ -1,0 +1,26 @@
+---
+- name: "Automate building docker container"
+  hosts: localhost
+  tasks:
+    - name: stop running container
+      command: docker stop nodejs-container
+      ignore_errors: yes
+
+    - name: remove stopped container
+      command: docker rm nodejs-container
+      ignore_errors: yes
+
+    - name: remove used image
+      command: docker rmi nodejs-img
+      ignore_errors: yes
+
+    - name: build docker image from dockerfile
+      command: docker build -t nodejs-img .
+
+    - name: run container from image
+      command: docker run -d --name nodejs-container -p 8080:8080 nodejs-img
+    - name: change img name 
+      command: docker tag nodejs-img abeerseada/node
+    - name: push img 
+      command: docker push abeerseada/node:latest   
+      

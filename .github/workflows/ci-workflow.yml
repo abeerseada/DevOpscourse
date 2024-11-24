@@ -74,14 +74,11 @@ jobs:
     - name: checkout repo
       uses: actions/checkout@v4
       
-    - name: Build the Docker image
-      run: docker build -t abeerseada/go-app GO-App/ 
-      
     - name: Login to Docker Hub
       uses: docker/login-action@v3
       with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
           
-    - name: push the Docker image
-      run: docker push abeerseada/go-app
+    - name: Build the Docker image
+      run: docker buildx build --platform linux/amd64 -t abeerseada/go-app --push GO-App/

@@ -63,8 +63,8 @@ jobs:
 
     - name: Build and Push Node.js App Image
       run: |
-        docker build -t abeerseada/node_mongo_app nodejs-mongo/
-        docker push abeerseada/node_mongo_app
+        docker build -t abeerseada/node-mongo-app nodejs-mongo/
+        docker push abeerseada/node-mongo-app
   
   build-and-push-goapp:
 

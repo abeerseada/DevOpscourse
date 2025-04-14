@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const app = express();
 
 // Connect to MongoDB (replace the URI with your MongoDB connection string)
-mongoose.connect('mongodb://mongo:27017/testdb', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect('mongodb://mongo-service:27017/testdb', { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.error(err));
 
@@ -39,7 +39,7 @@ app.get('/insert', async (req, res) => {
 });
 
 // Start the server
-const port = 8080;
+const port = 5001;
 app.listen(port, '0.0.0.0', () => {
   console.log(`App running on http://0.0.0.0:${port}`);
 });

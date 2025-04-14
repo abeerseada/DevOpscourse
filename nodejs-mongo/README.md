@@ -25,3 +25,4 @@ The environment `mongo_url` is set to `mongodb://mongo:27017/testdb`
 
 
 
+http://localhost:8080/insert 

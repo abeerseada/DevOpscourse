@@ -8,6 +8,6 @@ RUN npm init -y
 RUN npm install
 RUN npm install express mongoose
 
-EXPOSE 5001
+EXPOSE 8080
 
 CMD ["node", "app.js"]
